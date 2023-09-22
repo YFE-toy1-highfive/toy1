@@ -1,10 +1,10 @@
-import NoticeListBox from './NoticeListBox';
+import NoticeListBox from '@components/Notice/NoticeList';
 import { useSelector } from 'react-redux';
-import { db } from '../../firebase';
 import { getDocs, collection, orderBy, query, onSnapshot } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
+import { db } from '../../firebase';
 
-import '../../scss/noticeProjectList.scss';
+import '@scss/components/noticeList.scss';
 
 const NoticeList = () => {
   const [title, setTitle] = useState<string[]>([]);
@@ -16,6 +16,7 @@ const NoticeList = () => {
 
   const getData = async () => {
     try {
+      console.log('데이터 가져옴');
       const querySnapshot = await getDocs(query(collection(db, 'notice'), orderBy('number', 'desc')));
       const data: string[] = [];
       const itemId: string[] = [];
@@ -35,12 +36,6 @@ const NoticeList = () => {
 
   useEffect(() => {
     getData();
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      getData();
-    };
   }, []);
 
   const userEmail = useSelector(state => state.loginUpdate.email);
